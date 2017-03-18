@@ -15,6 +15,30 @@ There are 3 points you can provide a configuration, inline as a second argument 
 ## process.env
 You can specify an envPrefix value if you want to keep your configurations 'separate' from other process.env values. Its a primitive method to help avoid name collissions but should work in most scenarios.
 
+
+## Serverless
+Within serverless, to create process.env values all you need to do is add environment variables to your configuration. This can make for a pretty convenient usage scenario. This is the intended use case for this module, but other simple scenarios will work just as well.
+```|yml
+service: superspecial
+
+provider:
+  name: aws
+  runtime: nodejs4.3
+  region: us-west-2
+  environment:
+    variable_name: ABC777
+    name: XYZ123
+```
+```|JavaScript
+const Config = require('lamcfg');
+const config = new Config({envPrefix:'MYCFG_',defaults:{dot:{notation:{to:{value:'DefaultValue'}}}}});
+
+function MyObject(config){
+  config.get('variable.name'); //ABC777
+  config.get('name'); //XYZ123
+}
+```
+
 # Config Defaults with process.env
 This assumes you have a central file or configuration source, as is usually needed in larger applications where the value is used in multiple places. This module does not provide you a method for storing and retreiving the configuration. If you would like this feature please request it at https://github.com/matt-filion/lamcfg/issues. 
 ```|JavaScript
