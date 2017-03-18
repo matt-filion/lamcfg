@@ -1,0 +1,38 @@
+{
+  "name": "lamcfg",
+  "version": "1.0.0",
+  "description": "Bereft and easy configuration management for NodeJS projects on AWS Lambda via Serverless.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha ./spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matt-filion/lamcfg.git"
+  },
+  "keywords": [
+    "Configuration",
+    "NodeJS",
+    "Lambda",
+    "AWSLambda",
+    "Config",
+    "Configs",
+    "Cfg",
+    "Serverless",
+    "Serverless.com"
+  ],
+  "files": [
+    "index.js",
+    "README.md"
+  ],
+  "author": "Matt Filion",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/matt-filion/lamcfg/issues"
+  },
+  "homepage": "https://github.com/matt-filion/lamcfg#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.2.0"
+  }
+}
