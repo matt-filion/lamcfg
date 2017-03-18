@@ -15,7 +15,6 @@ There are 3 points you can provide a configuration, inline as a second argument 
 ## process.env
 You can specify an envPrefix value if you want to keep your configurations 'separate' from other process.env values. Its a primitive method to help avoid name collissions but should work in most scenarios.
 
-
 ## Serverless
 Within serverless, to create process.env values all you need to do is add environment variables to your configuration. This can make for a pretty convenient usage scenario. This is the intended use case for this module, but other simple scenarios will work just as well.
 ```|yml
@@ -54,8 +53,24 @@ function MyObject(config){
    */
   config.get("dot.notation.to.value");
 }
+```
+
+## Updating Configurations
+Its possible to have a second source of configuration. There is a convenience method for updating an existing default configuration, with new values, using config.update({}).
+```|JavaScript
+const Config = require('lamcfg');
+
+function MyObject(additionalOrOverwritingConfigs){
+  const config = new Config({envPrefix:'MYCFG_',defaults:{dot:{notation:{to:{value:'DefaultValue'}}}}});
+  config.update(additionalOrOverwritingConfigs);
+  /*
+   * The default values stored will be overwritten with the values provided in additionalOrOverwrittenConfigs, passed in.
+   */
+  config.get("dot.notation.to.value");
+}
 
 ```
+
 
 # Inline and process.env
 This strategy aimes at providing you two points of configuration, and is appropriate for small and quick applications. Inline at the point of needing the configuration and then overriding using process.env variables. On AWS Lambda this will be in the form of environment variables, see http://docs.aws.amazon.com/lambda/latest/dg/env_variables.html.

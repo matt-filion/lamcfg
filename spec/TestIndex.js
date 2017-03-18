@@ -8,7 +8,7 @@ describe('Configuration', () => {
 
   describe('#new()', () => {
     it('Base Configuration Object', () =>
-      expect(new Config()).to.have.all.keys('get')
+      expect(new Config()).to.have.all.keys(['get','update'])
     );
   });
   describe('#get()', () => {
@@ -23,9 +23,15 @@ describe('Configuration', () => {
       return expect(config.get('name','InlineDefault')).to.equal('ObjectDefault')
     });
 
-    it('Get Configuration Dot Notation Value ', () => {
+    it('Get Default Configuration Value', () => {
+      const config = new Config({defaults:{name:'ObjectDefault'}});
+      return expect(config.get('name','InlineDefault')).to.equal('ObjectDefault')
+    });
+
+    it('Get Configuration Dot Notation Value after Updating', () => {
       const config = new Config({defaults:{name:{first:'ObjectDefault'}}});
-      return expect(config.get('name.first','InlineDefault')).to.equal('ObjectDefault')
+      config.update({name:{first:'ObjectDefaultSecond'}})
+      return expect(config.get('name.first','InlineDefault')).to.equal('ObjectDefaultSecond')
     });
 
     it('Get Environment Value', () => {

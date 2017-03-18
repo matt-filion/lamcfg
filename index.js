@@ -10,6 +10,7 @@ module.exports = function(_config){
   const lookInEnv    = (name) => process.env[`${prefix}${name.replace(/([^a-zA-Z0-9_])/g,'_')}`];
 
   return {
-    get: (name,inlineDefault) => lookInEnv(name) || lookForValue(name,defaults) || inlineDefault
+    get: (name,inlineDefault) => lookInEnv(name) || lookForValue(name,defaults) || inlineDefault,
+    update: configs => Object.assign(defaults || {}, configs)
   }
 }
