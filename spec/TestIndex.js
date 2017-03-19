@@ -18,6 +18,28 @@ describe('Configuration', () => {
       expect(config.get('namex')).to.be.undefined
     });
     
+    it('Get Boolean Value', () => {
+      const config = new Config({defaults:{'x':true}});
+      expect(config.get('x')).to.equal(true);
+      config.update({x:false});
+      expect(config.get('x')).to.equal(false);
+    });
+    
+    it('Get Number Value', () => {
+      const config = new Config({defaults:{'x':123}});
+      expect(config.get('x')).to.equal(123);
+      config.update({x:-321});
+      expect(config.get('x')).to.equal(-321);
+      config.update({x:0});
+      expect(config.get('x')).to.equal(0);
+    });
+    
+    it('Get Date Value', () => {
+      const date = new Date();
+      const config = new Config({defaults:{'x':date}});
+      expect(config.get('x')).to.equal(date);
+    });
+
     it('Get Inline Value', () => {
       const config = new Config();
       expect(config.get('name','InlineDefault')).to.equal('InlineDefault')
