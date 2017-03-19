@@ -10,6 +10,7 @@ module.exports = function(_config){
   const lookForValue = (path,parent) => parent ? path.split('.').reduce( (accumulator,name) => accumulator[name], parent) : null;
   const lookInEnv    = name => process.env[`${prefix}${name.replace(/([^a-zA-Z0-9_])/g,'_')}`];
   const get          = (name,inlineDefault) => lookInEnv(name) || lookForValue(name,defaults) || inlineDefault;
+  const deepCopy     = (target,source) => Object.keys(source).forEach( key => target[key] && typeof target[key] === 'object' ? deepCopy(target[key],source[key]) : target[key] = source[key] )
   const objectValues = (name,value) => {
     if(isObject(value)){
       Object.keys(value).forEach( key => {
@@ -25,6 +26,6 @@ module.exports = function(_config){
 
   return {
     get: (name,inlineDefault) => objectValues( name, get(name,inlineDefault) ),
-    update: configs => Object.assign(defaults || {}, configs)
+    update: configs => deepCopy(defaults || {}, configs)
   }
 }

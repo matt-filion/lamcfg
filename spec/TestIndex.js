@@ -44,6 +44,13 @@ describe('Configuration', () => {
       expect(config.get('name.first','InlineDefault')).to.equal('ObjectDefaultSecond')
     });
 
+    it('Get Configuration Dot Notation Value after Updating, complex', () => {
+      const config = new Config({defaults:{name:{first:'ObjectDefault'}}});
+      config.update({name:{first:'ObjectDefaultSecond'},another:{value:'to check'}})
+      expect(config.get('another.value')).to.equal('to check')
+      expect(config.get('name.first')).to.equal('ObjectDefaultSecond')
+    });
+
     it('Get Environment Value', () => {
       const config = new Config({name:'ObjectDefault'});
       process.env.name = 'ProcessOverride';
