@@ -6,11 +6,13 @@ The idea is to provide a quick wrapper around configurations to make them easily
 
 The secondary objective is to keep the code footprint small and have no reliance on outside libraries, since these quickly blow up the code footprint.
 
-## Value Heirarchy
+## config.get('name','inlineDefault')
 There are 3 points you can provide a configuration, inline as a second argument to getting the value, as 'defaults' to the configuration instance and as process.env values. The value is selected based on the first value found.
 1. process.env, if there is a value here it is used.
 2. configuration defaults, if there is a value found here it is used.
 3. inline defaults, this is the last place looked and the value is used if it is found.
+
+_NOTE: You do not have to use the full dot notation to a string/bool/number value. If you want to return a full object, you can do that. It will be appropriately overriden with all environment variable overrides._
 
 ## process.env
 You can specify an envPrefix value if you want to keep your configurations 'separate' from other process.env values. Its a primitive method to help avoid name collissions but should work in most scenarios.
@@ -55,7 +57,7 @@ function MyObject(config){
 }
 ```
 
-## Updating Configurations
+## Default Overrides, ```config.update({override:'values'})```
 Its possible to have a second source of configuration. There is a convenience method for updating an existing default configuration, with new values, using config.update({}).
 ```|JavaScript
 const Config = require('lamcfg');
@@ -70,7 +72,6 @@ function MyObject(additionalOrOverwritingConfigs){
 }
 
 ```
-
 
 # Inline and process.env
 This strategy aimes at providing you two points of configuration, and is appropriate for small and quick applications. Inline at the point of needing the configuration and then overriding using process.env variables. On AWS Lambda this will be in the form of environment variables, see http://docs.aws.amazon.com/lambda/latest/dg/env_variables.html.
