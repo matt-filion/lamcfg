@@ -6,6 +6,21 @@ The idea is to provide a quick wrapper around configurations to make them easily
 
 The secondary objective is to keep the code footprint small and have no reliance on outside libraries, since these quickly blow up the code footprint.
 
+## config.child('name')
+This provides you the ability to create a configuration object from an object within your configuration source, that can be passed around and used with its children continuing to be overridable by environment variables.
+
+```|JavaSript
+const Config = require('lamcfg');
+const config = new Config({defaults:{parent:{child:{with:'some',values:{value1:'DefaultValue'}}}}});
+const childConfig = config.childOf('parent.child');
+
+function MyObject(childConfig){
+  childConfig.get('with'); //some
+  childConfig.get('values.value'); //DefaultValue
+}
+
+```
+
 ## config.get('name','inlineDefault')
 There are 3 points you can provide a configuration, inline as a second argument to getting the value, as 'defaults' to the configuration instance and as process.env values. The value is selected based on the first value found.
 1. process.env, if there is a value here it is used.
@@ -32,7 +47,7 @@ provider:
 ```
 ```|JavaScript
 const Config = require('lamcfg');
-const config = new Config({envPrefix:'MYCFG_',defaults:{dot:{notation:{to:{value:'DefaultValue'}}}}});
+const config = new Config({envPrefix:'MYCFG_',defaults:{variable:{name:'x'},name:'y'}});
 
 function MyObject(config){
   config.get('variable.name'); //ABC777

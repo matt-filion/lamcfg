@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function(_config){
+function Config(_config){
 
   const config   = _config ? _config : {};
   const prefix   = config.envPrefix ? config.envPrefix : '';
@@ -16,12 +16,12 @@ module.exports = function(_config){
     if(!exists(value)) value = inlineDefault
     return value;
   };
-  const deepCopy     = (target,source) => Object.keys(source).forEach( key => target[key] && typeof target[key] === 'object' ? deepCopy(target[key],source[key]) : target[key] = source[key] )
-  const objectValues = (name,value) => {
+  const deepCopy       = (target,source) => Object.keys(source).forEach( key => target[key] && typeof target[key] === 'object' ? deepCopy(target[key],source[key]) : target[key] = source[key] )
+  const objEnvOverride = (name,value) => {
     if(isObject(value)){
       Object.keys(value).forEach( key => {
         if(isObject(value[key])){
-          value = overrides(`${name}.${key}`,value[key]);
+          objEnvOverride(`${name}.${key}`,value[key]);
         } else {
           value[key] = lookInEnv(`${name}.${key}`) || value[key] 
         }
@@ -30,8 +30,13 @@ module.exports = function(_config){
     return value;
   };
 
-  return {
-    get: (name,inlineDefault) => objectValues( name, get(name,inlineDefault) ),
-    update: configs => deepCopy(defaults || {}, configs)
+  const instance = {
+    get: (name,inlineDefault) => objEnvOverride( name, get(name,inlineDefault) ),
+    update: configs => deepCopy(defaults || {}, configs),
+    childOf: name => new Config({envPrefix:`${prefix}${prefix ? '_' : ''}${name}`,defaults:instance.get(name) })
   }
+
+  return instance;
 }
+
+module.exports = Config;
