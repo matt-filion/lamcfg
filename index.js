@@ -8,7 +8,7 @@ function Config(_config){
 
   const exists       = value => value !== undefined && value !== null;
   const isObject     = value => typeof value === 'object';
-  const lookForValue = path => path.split('.').reduce( (accumulator,name) => ccumulator ? accumulator[name] : {}, defaults);
+  const lookForValue = path => path.split('.').reduce( (accumulator,name) => accumulator ? accumulator[name] : {}, defaults);
   const lookInEnv    = name => process.env[`${prefix}${name.replace(/([^a-zA-Z0-9_])/g,'_')}`];
   const get          = (name,inlineDefault) => {
     let value = lookInEnv(name)
