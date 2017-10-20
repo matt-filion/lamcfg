@@ -12,7 +12,7 @@ This provides you the ability to create a configuration object from an object wi
 ```|JavaSript
 const Config = require('lamcfg');
 const config = new Config({defaults:{parent:{child:{with:'some',values:{value1:'DefaultValue'}}}}});
-const childConfig = config.childOf('parent.child');
+const childConfig = config.child('parent.child');
 
 function MyObject(childConfig){
   childConfig.get('with'); //some
@@ -20,6 +20,20 @@ function MyObject(childConfig){
 }
 
 ```
+
+```|TypeScript
+import * as Config from 'lamcfg';
+const config = new Config({defaults:{parent:{child:{with:'some',values:{value1:'DefaultValue'}}}}});
+const childConfig = config.child('parent.child');
+
+function MyObject(childConfig){
+  childConfig.get('with'); //some
+  childConfig.get('values.value'); //DefaultValue
+}
+
+```
+
+
 
 ## config.get('name','inlineDefault')
 There are 3 points you can provide a configuration, inline as a second argument to getting the value, as 'defaults' to the configuration instance and as process.env values. The value is selected based on the first value found.

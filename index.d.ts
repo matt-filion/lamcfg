@@ -1,18 +1,6 @@
 declare module "lamcfg" {
-  
-  export interface Settings {
-    /**
-     * The prefix to use for all variables in this environment.
-     */
-    envPrefix:string;
-    /**
-     * Default configurations to use when no environment override exists.
-     */
-    defaults:any;
-  }
-
-  export class Config{
-    constructor(settings?:Settings);
+  class Config{
+    constructor(settings?:Config.Settings);
     /**
      * Locates the configuration in the environment.
      * 
@@ -33,6 +21,21 @@ declare module "lamcfg" {
      *  defined in the environment.
      * @param name 
      */
-    childOf(name:string):Config;
+    child(name:string):Config;
   }
+  namespace Config {
+      
+    export interface Settings {
+      /**
+       * The prefix to use for all variables in this environment.
+       */
+      envPrefix:string;
+      /**
+       * Default configurations to use when no environment override exists.
+       */
+      defaults:any;
+    }
+  }
+
+  export = Config;
 }

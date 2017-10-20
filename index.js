@@ -38,7 +38,7 @@ class Config {
     Object.keys(source).forEach( key => this.config.defaults[key] && typeof this.config.defaults[key] === 'object' ? deepCopy(this.config.defaults[key],source[key]) : this.config.defaults[key] = source[key] );
   }
 
-  childOf(name) {
+  child(name) {
     return new Config({envPrefix:`${this.config.prefix}${this.config.prefix ? '_' : ''}${name}`,defaults:this.get(name) });
   }
 }
