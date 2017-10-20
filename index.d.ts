@@ -1,6 +1,6 @@
 declare module "lamcfg" {
   
-  class Settings {
+  export interface Settings {
     /**
      * The prefix to use for all variables in this environment.
      */
@@ -11,7 +11,7 @@ declare module "lamcfg" {
     defaults:any;
   }
 
-  class Config{
+  export class Config{
     constructor(settings?:Settings);
     /**
      * Locates the configuration in the environment.
