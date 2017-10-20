@@ -7,7 +7,7 @@ declare module "lamcfg" {
      * @param name 
      * @param inlineDefault 
      */
-    get(name:string,inlineDefault:any):any;
+    get(name:string,inlineDefault?:any):any;
 
     /**
      * Updates the defaults for this environment.
