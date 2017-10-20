@@ -4,13 +4,14 @@ class Config {
 
   constructor(_config) {
     this.config           = _config ? _config : {};
-    this.config.envPrefix = this.config.envPrefix ||  '';
+    this.config.envPrefix = this.config.envPrefix || '';
+    this.config.prefix    = this.config.prefix ||this.config.envPrefix;
     this.config.defaults  = this.config.defaults && Object.keys(this.config.defaults).length !== 0 ? this.config.defaults : {}
   }
 
   get(name,inlineDefault){
     const lookForValue = path => path.split('.').reduce( (accumulator,name) => accumulator ? accumulator[name] : null, defaults);
-    const lookInEnv    = name => process.env[`${prefix}${name.replace(/([^a-zA-Z0-9_])/g,'_')}`];
+    const lookInEnv    = name => process.env[`${this.config.prefix}${name.replace(/([^a-zA-Z0-9_])/g,'_')}`];
     const exists       = value => value !== undefined && value !== null;
     const get          = (name,inlineDefault) => {
       let value = lookInEnv(name)
@@ -39,7 +40,7 @@ class Config {
   }
 
   child(name) {
-    return new Config({envPrefix:`${this.config.prefix}${this.config.prefix ? '_' : ''}${name}`,defaults:this.get(name) });
+    return new Config({prefix:`${this.config.prefix}${this.config.prefix ? '_' : ''}${name}`,defaults:this.get(name) });
   }
 }
 
