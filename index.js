@@ -10,7 +10,7 @@ class Config {
   }
 
   get(name,inlineDefault){
-    const lookForValue = path => path.split('.').reduce( (accumulator,name) => accumulator ? accumulator[name] : null, defaults);
+    const lookForValue = path => path.split('.').reduce( (accumulator,name) => accumulator ? accumulator[name] : null, this.config.defaults);
     const lookInEnv    = name => process.env[`${this.config.prefix}${name.replace(/([^a-zA-Z0-9_])/g,'_')}`];
     const exists       = value => value !== undefined && value !== null;
     const get          = (name,inlineDefault) => {
